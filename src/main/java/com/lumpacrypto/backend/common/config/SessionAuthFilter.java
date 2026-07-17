@@ -1,6 +1,7 @@
 package com.lumpacrypto.backend.common.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.lumpacrypto.backend.common.error.ErrorResponse;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -20,11 +21,12 @@ public class SessionAuthFilter extends OncePerRequestFilter {
     public static final String USER_ID_ATTR = "authenticatedUserId";
 
     private final StringRedisTemplate redis;
-    private final ObjectMapper objectMapper;
+    // local mapper just for writing error json -> no bean injection needed
+    private final ObjectMapper objectMapper =
+            new ObjectMapper().registerModule(new JavaTimeModule());
 
-    public SessionAuthFilter(StringRedisTemplate redis, ObjectMapper objectMapper) {
+    public SessionAuthFilter(StringRedisTemplate redis) {
         this.redis = redis;
-        this.objectMapper = objectMapper;
     }
 
     @Override
