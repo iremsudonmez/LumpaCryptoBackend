@@ -29,4 +29,8 @@ public class PriceSnapshot {
         this.price = price;
         this.capturedAt = capturedAt;
     }
+
+    public String getSymbol() { return symbol; }
+    public BigDecimal getPrice() { return price; }
+    public Instant getCapturedAt() { return capturedAt; }
 }
